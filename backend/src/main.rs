@@ -1,8 +1,7 @@
+use backend::random_date;
 use clap::Parser;
-use rand::prelude::*;
 use regex::Regex;
 use std::fs;
-use time::{format_description, OffsetDateTime};
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
@@ -17,7 +16,7 @@ struct Args {
     start_date: String,
 
     /// End date
-    #[arg(short, long)]
+    #[arg(short, long, default_value_t = ("yesterday".to_string()))]
     end_date: String,
 }
 
@@ -31,21 +30,6 @@ fn main() {
 
     for cap in regex.captures_iter(&file_content) {
         dbg!(cap);
+        let rand_date = random_date(&args.start_date, &args.end_date);
     }
-
-    let format = format_description::parse(
-        "[year]-[month]-[day]_[hour]:[minute]:[second] [offset_hour \
-         sign:mandatory]:[offset_minute]:[offset_second]",
-    )
-    .unwrap();
-    let start_date = OffsetDateTime::parse(&format!("{} +00:00:00", args.start_date), &format)
-        .unwrap()
-        .unix_timestamp();
-    let end_date = OffsetDateTime::parse(&format!("{} +00:00:00", args.end_date), &format)
-        .unwrap()
-        .unix_timestamp();
-
-    let random_unix = rand::thread_rng().gen_range(start_date..=end_date);
-    let random_date = OffsetDateTime::from_unix_timestamp(random_unix).unwrap();
-    println!("{}", random_date)
 }
