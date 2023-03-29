@@ -1,29 +1,32 @@
 use rand::prelude::*;
-use time::{format_description, OffsetDateTime};
+use time::{format_description, Duration, OffsetDateTime};
 
-pub fn random_date(start: &str, end: &str) -> OffsetDateTime {
+fn get_date(date: &str) -> OffsetDateTime {
+    if let Ok(date) = date.parse::<i64>() {
+        let today = OffsetDateTime::now_utc();
+        let date = today + Duration::days(date);
+        return date;
+    }
+
     let format = format_description::parse(
         "[year]-[month]-[day]_[hour]:[minute]:[second] [offset_hour \
          sign:mandatory]:[offset_minute]:[offset_second]",
     )
     .unwrap();
-    let start_date = OffsetDateTime::parse(&format!("{start} +00:00:00"), &format)
-        .unwrap()
-        .unix_timestamp();
+    return OffsetDateTime::parse(&format!("{date}:00:00 +00:00:00"), &format).unwrap();
+}
 
-    let end_date = if end == "today" {
-        OffsetDateTime::parse(&format!("{end} +00:00:00"), &format)
-            .unwrap()
-            .unix_timestamp()
-    } else {
-        OffsetDateTime::now_utc().unix_timestamp()
-    };
+pub fn random_date(start: &str, end: &str, format: &str) -> String {
+    let start_date = get_date(start).unix_timestamp();
+    let end_date = get_date(end).unix_timestamp();
 
     let random_unix = rand::thread_rng().gen_range(start_date..=end_date);
     let random_date = OffsetDateTime::from_unix_timestamp(random_unix).unwrap();
-    println!("{}", random_date);
 
-    random_date
+    let format = format_description::parse(format).unwrap();
+    let random_date_formatted = random_date.format(&format).unwrap();
+    println!("{}", random_date_formatted);
+    return random_date_formatted;
 }
 
 #[cfg(test)]

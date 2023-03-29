@@ -9,4 +9,4 @@ edition = "2021"
 clap = { version = "4.1.12", features = ["derive"] }
 rand = "0.8.5"
 regex = "1.7.1"
-time = { version = "0.3.20", features = ["parsing"] }
+time = { version = "0.3.20", features = ["parsing", "formatting"] }

@@ -11,13 +11,20 @@ struct Args {
     #[arg(short, long)]
     input: String,
 
+    /// Format: YYYY-MM-DD_HH
+    /// Or: today + N, example: -e -2 is yesterday
     /// Start date
-    #[arg(short, long)]
+    #[arg(short, long, allow_hyphen_values = true)]
     start_date: String,
 
     /// End date
-    #[arg(short, long, default_value_t = ("yesterday".to_string()))]
+    #[arg(short, long, default_value_t = ("0".to_string()), allow_hyphen_values = true)]
+    // don't remove parentheses
     end_date: String,
+
+    /// Output formatting ([day]-[month]-[year] [hour])
+    #[arg(short, long, default_value_t = ("[day].[month].[year] [hour]:00".to_string()))]
+    out_format: String,
 }
 
 fn main() {
@@ -30,6 +37,6 @@ fn main() {
 
     for cap in regex.captures_iter(&file_content) {
         dbg!(cap);
-        let rand_date = random_date(&args.start_date, &args.end_date);
+        let rand_date = random_date(&args.start_date, &args.end_date, &args.out_format);
     }
 }
