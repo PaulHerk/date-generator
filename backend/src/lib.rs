@@ -13,7 +13,7 @@ fn get_date(date: &str) -> OffsetDateTime {
          sign:mandatory]:[offset_minute]:[offset_second]",
     )
     .unwrap();
-    return OffsetDateTime::parse(&format!("{date}:00:00 +00:00:00"), &format).unwrap();
+    OffsetDateTime::parse(&format!("{date}:00:00 +00:00:00"), &format).unwrap()
 }
 
 pub fn random_date(start: &str, end: &str, format: &str) -> String {
@@ -26,7 +26,7 @@ pub fn random_date(start: &str, end: &str, format: &str) -> String {
     let format = format_description::parse(format).unwrap();
     let random_date_formatted = random_date.format(&format).unwrap();
     println!("{}", random_date_formatted);
-    return random_date_formatted;
+    random_date_formatted
 }
 
 #[cfg(test)]
