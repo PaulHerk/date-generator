@@ -8,7 +8,7 @@ Command short/long | Description | Default Value
 -i / --input | Input file | REQUIRED
 -s / --start-date | The date when to start | REQUIRED
 -e / --end-date | The date when to end | 0 (today)
--o / --out-format | The format for the output | "[day].[month].[year] [hour]:00"
+-o / --out-format | The format for the output | "[day].[month].[year] [hour]:00", [see more here](#format)
 -h / --help | Print help
 -v / --verstion | Print version
 
