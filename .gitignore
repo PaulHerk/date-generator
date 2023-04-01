@@ -1,2 +1,2 @@
-backend/target
-backend/Cargo.lock
+/target
+/Cargo.lock
