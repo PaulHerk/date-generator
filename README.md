@@ -1,8 +1,8 @@
 # adp - append dates
 Add dates to your sources now!!!
 
-1. (Usage)[#usage]
-2. (Examples)[#examples]
+1. [Usage](#usage)
+2. [Examples](#examples)
 
 ## Usage
 adp -i [IN_FILE] -s [[DATE](#date)] -e [[DATE](#date)] -o [[FORMAT](#format)] [OUT_FILE]
