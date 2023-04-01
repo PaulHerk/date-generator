@@ -1,1 +1,3 @@
-https://google.com
+https://stackoverflow.com/questions/69222372/how-to-go-to-specific-commit-in-git
+https://docs.rs/clap/latest/clap/_derive/_tutorial/index.html
+https://github.com/Kaenigsion/date-generator/tree/main

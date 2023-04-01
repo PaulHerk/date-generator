@@ -38,10 +38,14 @@ fn main() {
     let file_content = fs::read_to_string(path).unwrap().trim().to_string();
 
     let mut new_file_content = file_content.clone();
+    let mut position_offset: usize = 0;
     for cap in regex.find_iter(&file_content) {
         let rand_date = random_date(&args.start_date, &args.end_date, &args.out_format);
         let insert_string = &format!(" {}", rand_date);
-        new_file_content.insert_str(cap.end(), insert_string)
+        let position = position_offset + cap.end();
+        dbg!(&position);
+        new_file_content.insert_str(position, insert_string);
+        position_offset += rand_date.chars().count() + 1;
     }
 
     fs::write(args.output, &new_file_content)
