@@ -1,6 +1,10 @@
 # adp - append dates
 Add dates to your sources now!!!
-## Usage:
+
+1. (Usage)[#usage]
+2. (Examples)[#examples]
+
+## Usage
 adp -i [IN_FILE] -s [[DATE](#date)] -e [[DATE](#date)] -o [[FORMAT](#format)] [OUT_FILE]
 
 Command short/long | Description | Default Value
@@ -24,6 +28,7 @@ There are two different options to represent dates.
 - _Example 1:_ `-s -5` (5 days ago)
 - _Example 2:_ `-e 4` (in 5 days)
 
+***
 
 ### Format
 You can customize the format as you want with these arguments:
@@ -38,3 +43,11 @@ You can customize the format as you want with these arguments:
 For more Information read [this](https://time-rs.github.io/book/api/format-description.html) and you can also find more arguments [here](https://docs.rs/time/0.3.20/time/format_description/modifier/index.html#structs). You can put basically anything in the string. <br>
 
 _Example:_ `-o "[second]:[minute]_[unix_timestamp] [weekday repr:short],[day]"`
+
+
+
+## Examples
+1. `apd -i input.txt -s -7`
+  - start last week, end now
+2. `apd -i sources.txt -s 2023-02-01_00 -e -1 output.txt`
+  - start on the 01.02.2023 at 00:00, end yesterday, output is output.txt
