@@ -19,16 +19,15 @@ Command short/long | Description | Default Value
 ### Date
 There are two different options to represent dates.
 
-#### First
+1. **First**
 - `YYYY-MM-DD_HH`
 - _Example:_ `-s 2023-4-01_18`
 
-#### Second
+2. **Second**
 - `Days from now (signed integers)`
 - _Example 1:_ `-s -5` (5 days ago)
 - _Example 2:_ `-e 4` (in 5 days)
 
-***
 
 ### Format
 You can customize the format as you want with these arguments:
