@@ -1,10 +1,11 @@
 # adp - append dates
 Add dates to your sources now!!!
 
-1. [Usage](#usage)
-2. [Examples](#examples)
+### 1. [Usage](#1-usage-1)
+### 2. [Examples](#2-examples-1)
+### 3. [Features](#3-features-1)
 
-## Usage
+## 1. Usage
 adp -i [IN_FILE] -s [[DATE](#date)] -e [[DATE](#date)] -o [[FORMAT](#format)] [OUT_FILE]
 
 Command short/long | Description | Default Value
@@ -20,11 +21,11 @@ Command short/long | Description | Default Value
 There are two different options to represent dates.
 
 1. **First**
-- `YYYY-MM-DD_HH`
+`YYYY-MM-DD_HH`
 - _Example:_ `-s 2023-4-01_18`
 
 2. **Second**
-- `Days from now (signed integers)`
+`Days from now (signed integers)`
 - _Example 1:_ `-s -5` (5 days ago)
 - _Example 2:_ `-e 4` (in 5 days)
 
@@ -45,8 +46,19 @@ _Example:_ `-o "[second]:[minute]_[unix_timestamp] [weekday repr:short],[day]"`
 
 
 
-## Examples
+## 2. Examples
 1. `apd -i input.txt -s -7`
-  - start last week, end now
+  > start last week, end now
 2. `apd -i sources.txt -s 2023-02-01_00 -e -1 output.txt`
-  - start on the 01.02.2023 at 00:00, end yesterday, output is output.txt
+  > start on the 01.02.2023 at 00:00, end yesterday, output is output.txt
+
+
+## 3. Features
+- [x] ~~Append random dates~~
+- [x] ~~Format customization~~
+- [x] ~~Relative dates~~
+- [ ] Remove all .unwrap()
+- [ ] No night mode
+- [ ] Verbose mode
+- [ ] Create docker image
+- [ ] Create homebrew tab?
