@@ -6,14 +6,14 @@ Add dates to your sources now!!!
 ### 3. [Features](#3-features-1)
 
 ## 1. Usage
-adp -i [IN_FILE] -s [[DATE](#date)] -e [[DATE](#date)] -o [[FORMAT](#format)] [OUT_FILE]
+adp --input [INPUT_FILE] --start-date [[DATE](#date)] --end-date [[DATE](#date)] --format [[FORMAT](#format)] [OUTPUT_FILE]
 
 Command short/long | Description | Default Value
 ---|---|---
 -i / --input | Input file | REQUIRED
 -s / --start-date | The date when to start | REQUIRED
 -e / --end-date | The date when to end | 0 (today), [see more here](#date)
--o / --out-format | The format for the output | "[day].[month].[year] [hour]:00", [see more here](#format)
+-f / --format | The format for the output | "[day].[month].[year] [hour]:00", [see more here](#format)
 -h / --help | Print help
 -v / --verstion | Print version
 
