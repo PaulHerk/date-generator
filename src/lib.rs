@@ -33,15 +33,15 @@ fn get_date(date: &str) -> OffsetDateTime {
     OffsetDateTime::parse(&format!("{date}:00:00 +00:00:00"), &format).unwrap()
 }
 
-pub fn random_date(start: &str, end: &str, format: &str, day_time: &RangeInclusive<u8>) -> String {
+pub fn random_date(start: &str, end: &str, format: &str, day_range: &RangeInclusive<u8>) -> String {
     let start_date = get_date(start).unix_timestamp();
     let end_date = get_date(end).unix_timestamp();
 
     let random_unix = rand::thread_rng().gen_range(start_date..=end_date);
     let mut random_date = OffsetDateTime::from_unix_timestamp(random_unix).unwrap();
 
-    if !day_time.contains(&random_date.hour()) {
-        let random_hour = rand::thread_rng().gen_range(day_time.clone());
+    if !day_range.contains(&random_date.hour()) {
+        let random_hour = rand::thread_rng().gen_range(day_range.clone());
         random_date = random_date.replace_hour(random_hour).unwrap();
     }
 
@@ -50,7 +50,7 @@ pub fn random_date(start: &str, end: &str, format: &str, day_time: &RangeInclusi
     random_date_formatted
 }
 
-pub fn day_time_parser(input: &str) -> Result<RangeInclusiveu8, String> {
+pub fn day_range_parser(input: &str) -> Result<RangeInclusiveu8, String> {
     let (start, end) = input.split_once('-').expect("Wrong Syntax, \"hh-hh\".");
     let [start, end] = [start, end].map(|num| num.parse::<u8>().expect("Expected a number."));
 

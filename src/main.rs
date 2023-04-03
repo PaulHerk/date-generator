@@ -1,16 +1,7 @@
-use apd::random_date;
+use apd::{random_date, RangeInclusiveu8};
 use clap::Parser;
 use regex::Regex;
-use std::{fmt, fs, ops::RangeInclusive};
-
-#[derive(Debug, Clone)]
-struct RangeInclusiveu8(pub RangeInclusive<u8>);
-
-impl fmt::Display for RangeInclusiveu8 {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}-{}", self.0.start(), self.0.end())
-    }
-}
+use std::fs;
 
 /// Simple program to append dates to your sources
 #[derive(Parser, Debug)]
@@ -24,20 +15,22 @@ struct Args {
     #[arg(default_value_t = format!("sources.txt"))]
     output: String,
 
-    /// Format: YYYY-MM-DD_HH
+    /// The date when to start;
+    /// Format: YYYY-MM-DD_HH,
     /// Or: today + N, example: -e -2 is yesterday
     #[arg(short, long, allow_hyphen_values = true)]
     start_date: String,
 
-    /// Same as START_DATE
+    /// The date when to end;
+    /// Format is the same as for START_DATE
     #[arg(short, long, default_value_t = format!("0"), allow_hyphen_values = true)]
     end_date: String,
 
-    /// Change night hour definition
-    #[arg(short, long, value_parser = apd::day_time_parser,default_value = "9-21",  default_value_t = RangeInclusiveu8( RangeInclusive::new(9, 21)))]
-    day: RangeInclusiveu8,
+    /// The range in the day from when to pick values "HH-HH" (not inclusive)
+    #[arg(short, long, value_parser = apd::day_range_parser,  default_value_t = RangeInclusiveu8::from(9..=20))]
+    day_range: RangeInclusiveu8,
 
-    /// Output formatting ([day]-[month]-[year] [hour])
+    /// Output formatting
     #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:00"))]
     format: String,
 }
@@ -53,10 +46,14 @@ fn main() {
     let mut new_file_content = file_content.clone();
     let mut position_offset: usize = 0;
     for cap in regex.find_iter(&file_content) {
-        let rand_date = random_date(&args.start_date, &args.end_date, &args.format, &args.day.0);
+        let rand_date = random_date(
+            &args.start_date,
+            &args.end_date,
+            &args.format,
+            &args.day_range.0,
+        );
         let insert_string = &format!(" {}", rand_date);
         let position = position_offset + cap.end();
-        dbg!(&position);
         new_file_content.insert_str(position, insert_string);
         position_offset += rand_date.chars().count() + 1;
     }

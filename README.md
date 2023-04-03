@@ -1,9 +1,15 @@
 # adp - append dates
 Add dates to your sources now!!!
 
-### 1. [Usage](#1-usage-1)
-### 2. [Examples](#2-examples-1)
-### 3. [Features](#3-features-1)
+<!--toc:start-->
+- [1. Usage](#1-usage)
+  - [Date](#date)
+  - [Format](#format)
+  - [Day Range](#day-range)
+- [2. Examples](#2-examples)
+- [3. Features](#3-features)
+<!--toc:end-->
+
 
 ## 1. Usage
 adp --input [INPUT_FILE] --start-date [[DATE](#date)] --end-date [[DATE](#date)] --format [[FORMAT](#format)] [OUTPUT_FILE]
@@ -13,6 +19,7 @@ Command short/long | Description | Default Value
 -i / --input | Input file | REQUIRED
 -s / --start-date | The date when to start | REQUIRED
 -e / --end-date | The date when to end | 0 (today), [see more here](#date)
+-d / --day_range | The range in the day from when to pick values (not inclusive) | "9-20", [see more here](#day-range)
 -f / --format | The format for the output | "[day].[month].[year] [hour]:00", [see more here](#format)
 -h / --help | Print help
 -v / --verstion | Print version
@@ -44,6 +51,14 @@ For more Information read [this](https://time-rs.github.io/book/api/format-descr
 
 _Example:_ `-o "[second]:[minute]_[unix_timestamp] [weekday repr:short],[day]"`
 
+
+### Day Range
+You can customize the range when to pick the hours with this. 24 is no valid hour.
+
+- _Example 1:_ `-d "5-12"`
+ > Choose values from 5:00 to 11:59
+- _Example 2:_ `-d "0-0"`
+ > If you put the same values twice, it means that every hour is possible
 
 
 ## 2. Examples
