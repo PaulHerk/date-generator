@@ -1,4 +1,4 @@
-use apd::random_date;
+use apd::{random_date, RangeInclusiveu8};
 use clap::Parser;
 use regex::Regex;
 use std::fs;
@@ -24,7 +24,11 @@ struct Args {
     #[arg(short, long, default_value_t = format!("0"), allow_hyphen_values = true)]
     end_date: String,
 
-    /// Output formatting ([day]-[month]-[year] [hour])
+    /// Change night hour definition
+    #[arg(short, long, value_parser = apd::day_time_parser,default_value = "9-21",  default_value_t = RangeInclusiveu8::from(9..=20))]
+    day: RangeInclusiveu8,
+
+    /// Output formatting
     #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:00"))]
     out_format: String,
 }
@@ -40,10 +44,14 @@ fn main() {
     let mut new_file_content = file_content.clone();
     let mut position_offset: usize = 0;
     for cap in regex.find_iter(&file_content) {
-        let rand_date = random_date(&args.start_date, &args.end_date, &args.out_format);
+        let rand_date = random_date(
+            &args.start_date,
+            &args.end_date,
+            &args.out_format,
+            &args.day.0,
+        );
         let insert_string = &format!(" {}", rand_date);
         let position = position_offset + cap.end();
-        dbg!(&position);
         new_file_content.insert_str(position, insert_string);
         position_offset += rand_date.chars().count() + 1;
     }

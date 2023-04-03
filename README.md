@@ -40,7 +40,7 @@ You can customize the format as you want with these arguments:
 - [minute]
 - [second]
 
-For more Information read [this](https://time-rs.github.io/book/api/format-description.html) and you can also find more arguments [here](https://docs.rs/time/0.3.20/time/format_description/modifier/index.html#structs). You can put basically anything in the string. <br>
+For more Information read [this](https://time-rs.github.io/book/api/format-description.html) and you can also find the complete argument list [here](https://docs.rs/time/0.3.20/time/format_description/modifier/index.html#structs). You can put basically anything in the string. <br>
 
 _Example:_ `-o "[second]:[minute]_[unix_timestamp] [weekday repr:short],[day]"`
 
