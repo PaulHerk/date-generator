@@ -31,7 +31,7 @@ struct Args {
     day_range: RangeInclusiveu8,
 
     /// Output formatting
-    #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:00"))]
+    #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:[minute]"))]
     format: String,
 }
 

@@ -20,7 +20,7 @@ Command short/long | Description | Default Value
 -s / --start-date | The date when to start | REQUIRED
 -e / --end-date | The date when to end | 0 (today), [see more here](#date)
 -d / --day_range | The range in the day from when to pick values (not inclusive) | "9-20", [see more here](#day-range)
--f / --format | The format for the output | "[day].[month].[year] [hour]:00", [see more here](#format)
+-f / --format | The format for the output | "[day].[month].[year] [hour]:[minute]", [see more here](#format)
 -h / --help | Print help
 -v / --verstion | Print version
 
