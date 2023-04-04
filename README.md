@@ -59,6 +59,8 @@ You can customize the range when to pick the hours with this. 24 is no valid hou
  > Choose values from 5:00 to 11:59
 - _Example 2:_ `-d "0-0"`
  > If you put the same values twice, it means that every hour is possible
+- _Example 3:_ `-d "3-1"`
+ > Will fail, because start is bigger than end
 
 
 ## 2. Examples
