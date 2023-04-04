@@ -75,7 +75,7 @@ You can customize the range when to pick the hours with this. 24 is no valid hou
 - [x] ~~Format customization~~
 - [x] ~~Relative dates~~
 - [ ] Remove all .unwrap()
-- [ ] No night mode
+- [x] ~~No night mode~~
 - [ ] Verbose mode
 - [ ] Create docker image
 - [ ] Create homebrew tab?
