@@ -1,4 +1,4 @@
-use apd::random_date;
+use apd::{random_date, RangeInclusiveu8};
 use clap::Parser;
 use regex::Regex;
 use std::fs;
@@ -15,18 +15,24 @@ struct Args {
     #[arg(default_value_t = format!("sources.txt"))]
     output: String,
 
-    /// Format: YYYY-MM-DD_HH
+    /// The date when to start;
+    /// Format: YYYY-MM-DD_HH,
     /// Or: today + N, example: -e -2 is yesterday
     #[arg(short, long, allow_hyphen_values = true)]
     start_date: String,
 
-    /// Same as START_DATE
+    /// The date when to end;
+    /// Format is the same as for START_DATE
     #[arg(short, long, default_value_t = format!("0"), allow_hyphen_values = true)]
     end_date: String,
 
-    /// Output formatting ([day]-[month]-[year] [hour])
-    #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:00"))]
-    out_format: String,
+    /// The range in the day from when to pick values "HH-HH" (not inclusive)
+    #[arg(short, long, value_parser = apd::day_range_parser,  default_value_t = RangeInclusiveu8::from(9..=20))]
+    day_range: RangeInclusiveu8,
+
+    /// Output formatting
+    #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:[minute]"))]
+    format: String,
 }
 
 fn main() {
@@ -40,10 +46,14 @@ fn main() {
     let mut new_file_content = file_content.clone();
     let mut position_offset: usize = 0;
     for cap in regex.find_iter(&file_content) {
-        let rand_date = random_date(&args.start_date, &args.end_date, &args.out_format);
+        let rand_date = random_date(
+            &args.start_date,
+            &args.end_date,
+            &args.format,
+            &args.day_range.0,
+        );
         let insert_string = &format!(" {}", rand_date);
         let position = position_offset + cap.end();
-        dbg!(&position);
         new_file_content.insert_str(position, insert_string);
         position_offset += rand_date.chars().count() + 1;
     }
