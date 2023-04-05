@@ -2,18 +2,25 @@
 Add dates to your sources now!!!
 
 <!--toc:start-->
-- [1. Usage](#1-usage)
-  - [Date](#date)
-  - [Format](#format)
-  - [Day Range](#day-range)
-- [2. Examples](#2-examples)
-- [3. Features](#3-features)
+- [adp - append dates](#adp-append-dates)
+  - [1. Usage](#1-usage)
+  - [2. Arguments](#2-arguments)
+  - [3. Usage](#3-usage)
+    - [Date](#date)
+    - [Format](#format)
+    - [Day Range](#day-range)
+  - [4. Examples](#4-examples)
+  - [5. Features](#5-features)
 <!--toc:end-->
 
 
 ## 1. Usage
-adp --input [INPUT_FILE] --start-date [[DATE](#date)] --end-date [[DATE](#date)] --format [[FORMAT](#format)] [OUTPUT_FILE]
+apd [OPTIONS] --input <INPUT> --start-date <START_DATE> [OUTPUT]
 
+## 2. Arguments
+[OUTPUT]  Name of the output file [default: sources.txt]
+
+## 3. Usage
 Command short/long | Description | Default Value
 ---|---|---
 -i / --input | Input file | REQUIRED
@@ -63,14 +70,14 @@ You can customize the range when to pick the hours with this. 24 is no valid hou
  > Will fail, because start is bigger than end
 
 
-## 2. Examples
+## 4. Examples
 1. `apd -i input.txt -s -7`
   > start last week, end now
 2. `apd -i sources.txt -s 2023-02-01_00 -e -1 output.txt`
   > start on the 01.02.2023 at 00:00, end yesterday, output is output.txt
 
 
-## 3. Features
+## 5. Features
 - [x] ~~Append random dates~~
 - [x] ~~Format customization~~
 - [x] ~~Relative dates~~
