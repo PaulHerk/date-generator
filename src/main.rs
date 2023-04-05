@@ -1,7 +1,10 @@
-use apd::{random_date, RangeInclusiveu8};
+use apd::random_date;
 use clap::Parser;
 use regex::Regex;
 use std::fs;
+use time::OffsetDateTime;
+mod parsers;
+use parsers::*;
 
 /// Simple program to append dates to your sources
 #[derive(Parser, Debug)]
@@ -18,16 +21,16 @@ struct Args {
     /// The date when to start;
     /// Format: YYYY-MM-DD_HH,
     /// Or: today + N, example: -e -2 is yesterday
-    #[arg(short, long, allow_hyphen_values = true)]
-    start_date: String,
+    #[arg(short, long, allow_hyphen_values = true, value_parser = date_parser)]
+    start_date: OffsetDateTime,
 
     /// The date when to end;
     /// Format is the same as for START_DATE
-    #[arg(short, long, default_value_t = format!("0"), allow_hyphen_values = true)]
-    end_date: String,
+    #[arg(short, long, default_value_t = date_parser("0").unwrap(), allow_hyphen_values = true, value_parser = date_parser)]
+    end_date: OffsetDateTime,
 
     /// The range in the day from when to pick values "HH-HH" (not inclusive)
-    #[arg(short, long, value_parser = apd::day_range_parser,  default_value_t = RangeInclusiveu8::from(9..=20))]
+    #[arg(short, long, value_parser = day_range_parser,  default_value_t = RangeInclusiveu8::from(9..=20))]
     day_range: RangeInclusiveu8,
 
     /// Output formatting
@@ -47,8 +50,8 @@ fn main() {
     let mut position_offset: usize = 0;
     for cap in regex.find_iter(&file_content) {
         let rand_date = random_date(
-            &args.start_date,
-            &args.end_date,
+            args.start_date,
+            args.end_date,
             &args.format,
             &args.day_range.0,
         );
