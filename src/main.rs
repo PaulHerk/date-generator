@@ -1,7 +1,7 @@
 use apd::random_date;
 use clap::Parser;
 use regex::Regex;
-use std::fs;
+use std::{fs, vec::IntoIter};
 use time::OffsetDateTime;
 mod parsers;
 use parsers::*;
@@ -26,12 +26,12 @@ struct Args {
 
     /// The date when to end;
     /// Format is the same as for START_DATE
-    #[arg(short, long, default_value_t = date_parser("0").unwrap(), allow_hyphen_values = true, value_parser = date_parser)]
+    #[arg(short, long, default_value = "0", allow_hyphen_values = true, value_parser = date_parser)]
     end_date: OffsetDateTime,
 
     /// The range in the day from when to pick values "HH-HH" (not inclusive)
-    #[arg(short, long, value_parser = day_range_parser,  default_value_t = RangeInclusiveu8::from(9..=20))]
-    day_range: RangeInclusiveu8,
+    #[arg(short, long, value_parser = day_range_parser,  default_value = "9-20")]
+    day_range: IntoIter<u8>,
 
     /// Output formatting
     #[arg(short, long, default_value_t = format!("[day].[month].[year] [hour]:[minute]"))]
@@ -53,7 +53,7 @@ fn main() {
             args.start_date,
             args.end_date,
             &args.format,
-            &args.day_range.0,
+            args.day_range.clone(),
         );
         let insert_string = &format!(" {}", rand_date);
         let position = position_offset + cap.end();

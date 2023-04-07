@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use std::{fmt, ops::RangeInclusive};
+use std::{fmt, ops::RangeInclusive, vec};
 use time::{format_description, format_description::FormatItem, Duration, OffsetDateTime};
 
 #[derive(Debug, Clone)]
@@ -17,19 +17,20 @@ impl fmt::Display for RangeInclusiveu8 {
     }
 }
 
-pub fn day_range_parser(input: &str) -> Result<RangeInclusiveu8, String> {
+pub fn day_range_parser<'a>(input: &str) -> Result<vec::IntoIter<u8>, String> {
     let (start, end) = input.split_once('-').expect("Wrong Syntax, \"hh-hh\".");
     let [start, end] = [start, end].map(|num| num.parse::<u8>().expect("Expected a number."));
 
     if start >= 24 {
         return Err("Invalid hour.".to_string());
     } else if start > end {
-        return Err("End must be bigger than start.".to_string());
+        let iter = (0..end).chain(21..24).collect::<Vec<_>>().into_iter();
+        return Ok(iter);
     } else if start == end {
-        return Ok(RangeInclusiveu8::from(2..=1));
+        return Ok((2..=1).collect::<Vec<_>>().into_iter());
     }
 
-    Ok(RangeInclusiveu8::from(start..=end))
+    Ok((start..=end).collect::<Vec<_>>().into_iter())
 }
 
 pub fn date_parser(date: &str) -> Result<OffsetDateTime, String> {
