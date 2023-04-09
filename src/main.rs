@@ -46,8 +46,7 @@ fn main() {
     let path = args.input;
     let file_content = fs::read_to_string(path).unwrap().trim().to_string();
 
-    let mut new_file_content = file_content.clone();
-    let mut position_offset: usize = 0;
+    let mut new_file_content = String::new();
     for cap in regex.find_iter(&file_content) {
         let rand_date = random_date(
             args.start_date,
@@ -55,10 +54,8 @@ fn main() {
             &args.format,
             args.day_range.clone(),
         );
-        let insert_string = &format!(" {}", rand_date);
-        let position = position_offset + cap.end();
-        new_file_content.insert_str(position, insert_string);
-        position_offset += rand_date.chars().count() + 1;
+        let insert_string = &format!("{} {}\n", cap.as_str(), rand_date);
+        new_file_content.push_str(&insert_string);
     }
 
     fs::write(args.output, &new_file_content)
