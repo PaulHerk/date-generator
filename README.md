@@ -29,7 +29,7 @@ Command short/long | Description | Default Value
 -d / --day_range | The range in the day from when to pick values (not inclusive) | "9-20", [see more here](#day-range)
 -f / --format | The format for the output | "[day].[month].[year] [hour]:[minute]", [see more here](#format)
 -h / --help | Print help
--v / --verstion | Print version
+-v / --version | Print version
 
 ### Date
 There are two different options to represent dates.
