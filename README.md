@@ -86,3 +86,4 @@ You can customize the range when to pick the hours with this. 24 is no valid hou
 - [ ] Verbose mode
 - [ ] create a website for it
 - [ ] read input so a external file isn't needed
+- [ ] optimise links
