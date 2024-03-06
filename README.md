@@ -23,7 +23,8 @@ apd [[OPTIONS]](#3-options) --input <INPUT> --start-date <START_DATE> [[OUTPUT]]
 ## 3. Options
 Command short/long | Description | Default Value
 ---|---|---
--i / --input | Input file | REQUIRED
+-i / --input | Input file | None
+-o / --output | Output file | None
 -s / --start-date | The date when to start | REQUIRED
 -e / --end-date | The date when to end | 0 (today), [see more here](#date)
 -d / --day_range | The range in the day from when to pick values (not inclusive) | "9-20", [see more here](#day-range)
