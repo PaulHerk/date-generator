@@ -83,7 +83,6 @@ You can customize the range when to pick the hours with this. 24 is no valid hou
 - [x] ~~Relative dates~~
 - [ ] Remove all .unwrap()
 - [x] ~~No night mode~~
-- [ ] Verbose mode
 - [ ] create a website for it
-- [ ] read input so a external file isn't needed
-- [ ] optimise links
+- [x] read input so a external file isn't needed
+- [x] optimise links

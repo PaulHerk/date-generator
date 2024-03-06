@@ -1,9 +1,9 @@
 use apd::random_date;
 use clap::Parser;
-use regex::Regex;
 use std::{fs, vec::IntoIter};
 use time::OffsetDateTime;
 mod parsers;
+use linkify::LinkFinder;
 use parsers::*;
 
 /// Simple program to append dates to your sources
@@ -11,12 +11,12 @@ use parsers::*;
 #[command(author, version, author, about, long_about = None)]
 struct Args {
     /// Name of the input file
-    #[arg(short, long)]
-    input: String,
+    #[arg(short, long, default_value = None)]
+    input: Option<String>,
 
     /// Name of the output file
-    #[arg(default_value_t = format!("sources.txt"))]
-    output: String,
+    #[arg(short, long, default_value = None)]
+    output: Option<String>,
 
     /// The date when to start;
     /// Format: YYYY-MM-DD_HH,
@@ -41,23 +41,38 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    let regex = Regex::new(r"https?://(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&//=]*)").unwrap();
+    let file_content = if let Some(path) = args.input {
+        fs::read_to_string(path).unwrap().trim().to_string()
+    } else {
+        let mut buffer = String::new();
+        let stdin = std::io::stdin(); // We get `Stdin` here.
+        stdin.read_line(&mut buffer).unwrap();
+        buffer
+    };
 
-    let path = args.input;
-    let file_content = fs::read_to_string(path).unwrap().trim().to_string();
+    let linkfinder = LinkFinder::new();
+    let links = linkfinder.links(&file_content);
 
-    let mut new_file_content = String::new();
-    for cap in regex.find_iter(&file_content) {
+    let mut new_file_content = file_content.clone();
+    let mut offset = 0_usize;
+    for cap in links {
         let rand_date = random_date(
             args.start_date,
             args.end_date,
             &args.format,
             args.day_range.clone(),
         );
-        let insert_string = &format!("{} {}\n", cap.as_str(), rand_date);
-        new_file_content.push_str(&insert_string);
+        let insert_string = &format!(" {}", rand_date);
+
+        new_file_content.insert_str(offset + cap.end(), insert_string);
+        offset += insert_string.len();
     }
 
-    fs::write(args.output, &new_file_content)
-        .unwrap_or_else(|_| panic!("Failed to write file, output: \n {}", new_file_content));
+    if let Some(output_path) = args.output {
+        fs::write(output_path, &new_file_content)
+            .unwrap_or_else(|_| panic!("Failed to write file, output: \n {}", new_file_content));
+    } else {
+        println!("---------- OUTPUT ----------");
+        println!("{}", new_file_content);
+    }
 }
