@@ -15,7 +15,7 @@ Add dates to your sources now!!!
 
 
 ## 1. Usage
-apd [[OPTIONS]](#3-options) --input <INPUT> --start-date <START_DATE> [[OUTPUT]](#2-arguments)
+apd [[OPTIONS]](#3-options) --start-date <START_DATE>
 
 ## 2. Arguments
 [OUTPUT]  Name of the output file [default: sources.txt]
